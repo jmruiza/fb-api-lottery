@@ -7,7 +7,7 @@ const {Router} = require("express");
 const router = Router();
 
 admin.initializeApp({
-  credential: admin.credential.cert("./permissions.json"),
+  credential: admin.credential.applicationDefault(),
 });
 
 const db = admin.firestore();
