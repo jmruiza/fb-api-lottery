@@ -14,6 +14,7 @@ app.get('/hello-world', (req, res) => {
     return res.status(200).json({message: 'Hello World!'});
 });
 
+// Create a new user
 app.post('/api/user', async (req, res) => {
     try {
         const {name, email} = req.body;
@@ -24,6 +25,17 @@ app.post('/api/user', async (req, res) => {
     }
 });
 
+// Get all users
+app.get('/api/users', async (req, res) => {
+    try {
+        const users = await db.collection('users').get();
+        return res.status(200).json(users.docs.map(doc => doc.data()));
+    } catch (error) {
+        return res.status(500).json({message: error.message});
+    }   
+});
+
+// Get a user by id
 app.get('/api/users/:user_id', async (req, res) => {
     try {   
         const {user_id} = req.params;
@@ -34,5 +46,26 @@ app.get('/api/users/:user_id', async (req, res) => {
     }
 });
 
+// Update user data by id
+app.put('/api/user/:user_id', async (req, res) => {
+    try {
+        const {user_id} = req.params;
+        await db.collection('users').doc(user_id).update(req.body);
+        return res.status(200).json({message: "User updated!"});
+    } catch (error) {
+        return res.status(500).json({message: error.message});
+    }
+});
+
+// Delete user by id
+app.delete('/api/user/:user_id', async (req, res) => {
+    try {
+        const {user_id} = req.params;
+        await db.collection('users').doc(user_id).delete();
+        return res.status(200).json({message: "User deleted!"});
+    } catch (error) {
+        return res.status(500).json({message: error.message});
+    }
+});
 
 exports.app = functions.https.onRequest(app);
