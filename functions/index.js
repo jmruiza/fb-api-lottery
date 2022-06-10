@@ -1,12 +1,8 @@
-const functions = require("firebase-functions");
-const express = require("express");
+import functions from "firebase-functions";
+import app from "../app";
 
-const app = express();
-
-app.get("/hello-world", (req, res) => {
-  return res.status(200).json({message: "Hello World!"});
+app.listen(3000, () => {
+    console.log("Server is listening on port 3000");
 });
-
-app.use(require("./routes/user.routes"));
 
 exports.app = functions.https.onRequest(app);
