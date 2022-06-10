@@ -1,13 +1,7 @@
-import express from "express";
-import admin from "firebase-admin";
+const express = require("express");
+const userRoutes = require("./routes/user.routes");
 
 const app = express();
-
-admin.initializeApp({
-    credential: admin.credential.cert("./permissions.json"),
-});
-
-// const db = admin.firestore();
 
 app.get("/hello-world", (req, res) => {
     try {
@@ -16,5 +10,7 @@ app.get("/hello-world", (req, res) => {
         return res.status(500);
     }
 });
+
+app.use("/api/users", userRoutes);
 
 module.exports = app;
