@@ -11,6 +11,6 @@ app.get("/hello-world", (req, res) => {
     }
 });
 
-app.use("/api/users", userRoutes);
+app.use("/api", userRoutes);
 
 module.exports = app;
