@@ -12,6 +12,7 @@ module.exports = {
         "quotes": ["error", "double"],
         "linebreak-style": 0,
         "indent": ["error", 4],
+        "no-trailing-spaces": 0,
     },
     "parser": "@babel/eslint-parser",
 };
