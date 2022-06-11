@@ -30,7 +30,8 @@ router.get("/users", async (req, res) => {
                 "name": doc.data().name,
                 "email": doc.data().email,
             })
-            ));
+            )
+        );
     } catch (error) {
         console.log("/api/users: ", error);
         return res.status(500).json({ message: error.message });
