@@ -2,19 +2,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable object-curly-spacing */
 
-const admin = require("firebase-admin");
 const {Router} = require("express");
 const router = Router();
-const serviceAccount = require("../serviceAccount.json");
-
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-});
-
-const db = admin.firestore();
+const db = require("../utils/db").default;
 
 // Create a new user
 router.post("/user", async (req, res) => {
+    console.log(req);
     try {
         const {name, email} = req.body;
         await db.collection("users").doc().create({ name, email });
