@@ -11,7 +11,9 @@ router.post("/user", async (req, res) => {
     try {
         const {name, email} = req.body;
         await db.collection("users").doc().create({ name, email });
-        return res.status(200).json({message: "User created!"});
+        return res.status(200).json({
+            message: `User created!`,
+        });
     } catch (error) {
         console.log("/api/user: ", error);
         return res.status(500).json({ message: error.message });
@@ -21,8 +23,14 @@ router.post("/user", async (req, res) => {
 // Get all users
 router.get("/users", async (req, res) => {
     try {
-        const users = await db.collection("users").get();
-        return res.status(200).json(users.docs.map((doc) => doc.data()));
+        const response = await db.collection("users").get();
+        return res.status(200).json(
+            response.docs.map((doc) => ({
+                "id": doc.id,
+                "name": doc.data().name,
+                "email": doc.data().email,
+            })
+        ));
     } catch (error) {
         console.log("/api/users: ", error);
         return res.status(500).json({ message: error.message });
@@ -30,11 +38,15 @@ router.get("/users", async (req, res) => {
 });
 
 // Get a user by id
-router.get("/users/:user_id", async (req, res) => {
+router.get("/user/:userId", async (req, res) => {
     try {
-        const {user_id} = req.params;
-        const user = await db.collection("users").doc(user_id).get();
-        return res.status(200).json(user.data());
+        const {userId} = req.params;
+        const user = await db.collection("users").doc(userId).get();
+        return res.status(200).json({
+            id: userId,
+            name: user.data().name,
+            email: user.data().email,
+        });
     } catch (error) {
         return res.status(500).json({ message: error.message });
     }

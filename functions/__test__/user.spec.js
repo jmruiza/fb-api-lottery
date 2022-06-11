@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-import app from "../app";
+import {app} from "../index";
 import request from "supertest";
 import {faker} from "@faker-js/faker";
 
@@ -15,20 +15,28 @@ describe("/api/user", () => {
             // .attach('avatar', 'test/fixtures/avatar.jpg');
         expect(res.status).toBe(200);
         expect(res.body).toBeInstanceOf(Object);
-        expect(res.body).toStrictEqual({message: "User created!"});
+    
     });
-
-    let userId;
+    
 
     test("GET /api/users", async () => {
-        const res = await request(app)
-            .get("/api/users");
-        userId = res.body[0].id;
+        const res = await request(app).get("/api/users");
         expect(res.status).toBe(200);
         expect(res.body).toBeInstanceOf(Array);
     });
+    
 
-/*
+    test("GET /user/:userId", async () => {
+        const firstResponse = await request(app).get("/api/users");
+        expect(firstResponse.status).toBe(200);
+        
+        const userId = firstResponse.body[0].id;
+        const secondResponse = await request(app).get("/api/user/" + userId);
+        expect(secondResponse.status).toBe(200);
+        expect(secondResponse.body).toBeInstanceOf(Object);
+    });
+
+    /*
     test("PUT /user/:user_id", async () => {
         const res = await request(app)
             .put("/api/user/" + userId)
@@ -37,14 +45,8 @@ describe("/api/user", () => {
         expect(res.body).toMatchObject(Object);
     });
 
-    test("GET /user/:user_id", async () => {
-        const res = await request(app)
-            .get("/api/user/" + userId);
-        expect(res.status).toBe(200);
-        expect(res.body).toBeInstanceOf(Object);
-    });
-
     
+   
     test("DELETE /user/:user_id", async () => {
         const res = await request(app)
             .delete("/api/user/" + user.id);
