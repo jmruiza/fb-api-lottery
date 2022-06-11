@@ -1,7 +1,11 @@
 /* eslint-disable no-undef */
 
-import app from "../app";
+import {app, server} from "../index";
 import request from "supertest";
+
+afterAll(() => {
+    server.close();
+})
 
 describe("GET /hello-world", () => {
     test("should be ready", () => {

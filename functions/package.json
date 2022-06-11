@@ -8,7 +8,8 @@
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
-    "test": "jest --forceExit",
+    "test": "jest --verbose --silent",
+    "test:watch": "npm run test -- --watch",
     "start-dev": "nodemon node index.js"
   },
   "engines": {
