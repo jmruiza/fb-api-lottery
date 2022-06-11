@@ -5,7 +5,8 @@ import request from "supertest";
 
 afterAll(() => {
     server.close();
-})
+    app.close();
+});
 
 describe("GET /hello-world", () => {
     test("should be ready", () => {
