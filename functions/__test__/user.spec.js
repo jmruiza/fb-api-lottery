@@ -15,7 +15,7 @@ describe("/api/user", () => {
             // .attach('avatar', 'test/fixtures/avatar.jpg');
         expect(res.status).toBe(200);
         expect(res.body).toBeInstanceOf(Object);
-        expect(res.body).toBe({message: "User created!"});
+        expect(res.body).toStrictEqual({message: "User created!"});
     });
 
     let userId;
@@ -25,15 +25,16 @@ describe("/api/user", () => {
             .get("/api/users");
         userId = res.body[0].id;
         expect(res.status).toBe(200);
-        expect(users).toBeInstanceOf(Array);
+        expect(res.body).toBeInstanceOf(Array);
     });
 
+/*
     test("PUT /user/:user_id", async () => {
         const res = await request(app)
             .put("/api/user/" + userId)
             .send({email: "email@updated.com"});
         expect(res.status).toBe(200);
-        expect(res.body).toBeInstanceOf(Object);
+        expect(res.body).toMatchObject(Object);
     });
 
     test("GET /user/:user_id", async () => {
@@ -43,7 +44,7 @@ describe("/api/user", () => {
         expect(res.body).toBeInstanceOf(Object);
     });
 
-    /*
+    
     test("DELETE /user/:user_id", async () => {
         const res = await request(app)
             .delete("/api/user/" + user.id);

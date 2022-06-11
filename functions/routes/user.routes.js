@@ -8,11 +8,10 @@ const db = require("../utils/db").default;
 
 // Create a new user
 router.post("/user", async (req, res) => {
-    console.log(req);
     try {
         const {name, email} = req.body;
         await db.collection("users").doc().create({ name, email });
-        return res.status(200).json({ message: "User created!" });
+        return res.status(200).json({message: "User created!"});
     } catch (error) {
         console.log("/api/user: ", error);
         return res.status(500).json({ message: error.message });
